@@ -1,4 +1,7 @@
-#pip3 install torch torchtext transformers boto3
+#pip3 install torch torchtext transformers boto3 omegaconf hydra-core requests aiohttp
+
+import torch
+import os
 from model import GPT, GPTConfig, OptimizerConfig, create_optimizer
 from trainer import Trainer, TrainerConfig
 from char_dataset import CharDataset, DataConfig
