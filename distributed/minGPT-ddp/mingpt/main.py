@@ -1,3 +1,4 @@
+#pip3 install torch torchtext transformers boto3
 from model import GPT, GPTConfig, OptimizerConfig, create_optimizer
 from trainer import Trainer, TrainerConfig
 from char_dataset import CharDataset, DataConfig
@@ -5,6 +6,7 @@ from torch.utils.data import random_split
 from omegaconf import DictConfig
 import hydra
 from torch.distributed import init_process_group, destroy_process_group
+from transformers import AutoModel , AutoTokenizer 
 
 def ddp_setup():
     init_process_group(backend="nccl")
@@ -17,7 +19,7 @@ def get_train_objs(gpt_cfg: GPTConfig, opt_cfg: OptimizerConfig, data_cfg: DataC
 
     gpt_cfg.vocab_size = dataset.vocab_size
     gpt_cfg.block_size = dataset.block_size
-    model = GPT(gpt_cfg)
+    model = AutoModel.from_pretrained("facebook/opt-1.3b")
     optimizer = create_optimizer(model, opt_cfg)
     
     return model, optimizer, train_set, test_set
